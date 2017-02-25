@@ -13,4 +13,4 @@
 
 (rum/defc channel-item [[name url]]
   [:li {:class "room-item" :key name}
-   [:a {:href url} name]])
+   [:a {:href (str "/rooms/" url)} name]])
