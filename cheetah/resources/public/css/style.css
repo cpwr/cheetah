@@ -141,11 +141,11 @@ button {
 .chat-msg {
   padding: 8px;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   margin: 8px 0;
 }
 .chat-msg.owner {
-  flex-direction: row;
+  flex-direction: row-reverse;
 }
 .avatar {
   width: 48px;
