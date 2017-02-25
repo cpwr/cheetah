@@ -11,6 +11,8 @@
 
 (enable-console-print!)
 
+(defn on-navigate [name params query])
+
 (def router
   (r/router [["/" :sign-in]
              ["/profile" :profile]
@@ -21,6 +23,9 @@
   (pushy/pushy #(swap! state assoc :route %) (partial r/match router)))
 
 (pushy/start! history)
+
+(defn goto [url]
+  (pushy/set-token! history url))
 
 (rum/defc Router < rum/reactive [state]
   (let [{route :route} (rum/react state)
