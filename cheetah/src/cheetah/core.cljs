@@ -11,8 +11,11 @@
 (enable-console-print!)
 
 
-(def route (atom))
-
+(def state (atom {:rooms [
+                          ["#general" "#general"]
+                          ["#random" "#random"]
+                          ["#dev-js" "#dev-js"]]
+                  :route nil}))
 
 (def router
   (r/router [["/" :sign-in]
@@ -21,22 +24,21 @@
              ["/rooms/:name" :chat-by-name]]))
 
 (def history
-  (pushy/pushy #(reset! route %) (partial r/match router)))
+  (pushy/pushy #(swap! state assoc :route %) (partial r/match router)))
 
 (pushy/start! history)
 
-(rum/defc Router < rum/reactive [route]
-  (let [[handler params] (rum/react route)]
+(rum/defc Router < rum/reactive [state]
+  (let [{route :route} (rum/react state)
+        [route-name segment params] route]
     [:div
-     (case handler
-       :sign-in (sign-in/sign-in)
-       :profile (profile/profile)
-       :rooms (rooms/rooms [["#general" "#general"]
-                            ["#random" "#random"]
-                            ["#dev-js" "#dev-js"]])
-       :chat-by-name (let [name (get params :name)]
-                        (chat/chat name (h/get-chat-messages name)))
+     (case route-name
+       :sign-in (sign-in/sign-in state)
+       :profile (profile/profile state)
+       :rooms (rooms/rooms state)
+       :chat-by-name (let [name (get segment :name)]
+                      (chat/chat name (h/get-chat-messages name)))
        nil)]))
 
-(rum/mount (Router route)
+(rum/mount (Router state)
            (. js/document (getElementById "app")))
