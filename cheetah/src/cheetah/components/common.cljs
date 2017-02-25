@@ -11,3 +11,6 @@
      [:span title]]]
    [:div {:class "right"}
     [:button {:class "menu-btn"} "☰"]]]))
+
+(rum/defc avatar [url]
+  [:img {:src url :class "avatar"}])

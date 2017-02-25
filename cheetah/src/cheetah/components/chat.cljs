@@ -21,16 +21,13 @@
 
 (rum/defc message [[username message]]
   [:li {:class (str "chat-msg " (if (h/owner? username) "owner"))}
-   (message-avatar (h/avatar-url username))
+   (cc/avatar (h/avatar-url username))
    (message-bubble username message)])
 
 (rum/defc message-bubble [username message]
   [:div {:class "bubble"}
    [:div {:class "bubble-uname owner"} username]
    [:div {:class "body"} message]])
-
-(rum/defc message-avatar [url]
-  [:img {:src url :class "avatar"}])
 
 (rum/defc message-form []
   [:footer {:class "app-footer"}
