@@ -30,8 +30,6 @@
 (rum/defc Router < rum/reactive [state]
   (let [{route :route} (rum/react state)
         [route-name segment params] route]
-    (prn @state)
-    ; (prn (get @state :rooms))
     [:div
      (case route-name
        :sign-in (sign-in/sign-in)

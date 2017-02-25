@@ -4,4 +4,5 @@
                           ["#general" "general"]
                           ["#random" "random"]
                           ["#dev-js" "dev-js"]]
+                  :user nil
                   :route nil}))

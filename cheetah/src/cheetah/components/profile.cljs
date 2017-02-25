@@ -3,7 +3,7 @@
             [cheetah.components.common :as cc]
             [cheetah.state :refer [state]]))
 
-(rum/defc profile [state]
+(rum/defc profile []
   [:div {:class "screen profile"}
    (cc/header "Profile" #(swap! state assoc :route [:rooms nil nil]))
    [:main

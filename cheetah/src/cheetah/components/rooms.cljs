@@ -5,7 +5,6 @@
 (declare channel-item)
 
 (rum/defc rooms [rs]
- (prn rs)
  [:div {:class "screen rooms"}
   (cc/header "Chat rooms")
   [:ul {:class "rooms-list"}

@@ -1,9 +1,10 @@
 (ns cheetah.components.sign-in
   (:require [rum.core :as rum]
             [cheetah.core :as core]
-            [bide.core :as r]))
+            [bide.core :as r]
+            [cheetah.state :refer [state]]))
 
-(rum/defc sign-in [state]
+(rum/defc sign-in []
   [:div {:class "screen signin"}
    [:h1
     [:em "Cheetah"]]
