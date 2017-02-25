@@ -4,11 +4,12 @@
 
 (declare channel-item)
 
-(rum/defc rooms [state]
-          [:div {:class "screen rooms"}
-           (cc/header "Chat rooms")
-           [:ul {:class "rooms-list"}
-            (map channel-item state :rooms)]])
+(rum/defc rooms [rs]
+ (prn rs)
+ [:div {:class "screen rooms"}
+  (cc/header "Chat rooms")
+  [:ul {:class "rooms-list"}
+   (map channel-item rs)]])
 
 (rum/defc channel-item [[name url]]
   [:li {:class "room-item" :key name}

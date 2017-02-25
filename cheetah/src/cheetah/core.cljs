@@ -6,16 +6,10 @@
             [cheetah.components.rooms :as rooms]
             [cheetah.components.profile :as profile]
             [cheetah.components.chat :as chat]
-            [cheetah.helpers :as h]))
+            [cheetah.helpers :as h]
+            [cheetah.state :refer [state]]))
 
 (enable-console-print!)
-
-
-(def state (atom {:rooms [
-                          ["#general" "#general"]
-                          ["#random" "#random"]
-                          ["#dev-js" "#dev-js"]]
-                  :route nil}))
 
 (def router
   (r/router [["/" :sign-in]
@@ -31,12 +25,14 @@
 (rum/defc Router < rum/reactive [state]
   (let [{route :route} (rum/react state)
         [route-name segment params] route]
+    (prn @state)
+    ; (prn (get @state :rooms))
     [:div
      (case route-name
-       :sign-in (sign-in/sign-in state)
-       :profile (profile/profile state)
-       :rooms (rooms/rooms state)
-       :chat-by-name (let [name (get segment :name)]
+       :sign-in (sign-in/sign-in)
+       :profile (profile/profile)
+       :rooms (rooms/rooms (get @state :rooms))
+       :chat-by-name (let [name (get params :name)]
                       (chat/chat name (h/get-chat-messages name)))
        nil)]))
 
