@@ -1,10 +1,37 @@
 (ns cheetah.core
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [bide.core :as r]
+            [pushy.core :as pushy]
+            [cheetah.components.sign-in :as sign-in]
+            [cheetah.components.rooms :as rooms]
+            [cheetah.components.profile :as profile]))
 
 (enable-console-print!)
 
-(rum/defc hello-world []
-    [:h1 "Hello world!"])
 
-(rum/mount (hello-world)
+(def route (atom))
+
+
+(def router
+  (r/router [["/" :sign-in]
+             ["/profile" :profile]
+             ["/rooms" :rooms]]))
+
+(def history
+  (pushy/pushy #(reset! route %) (partial r/match router)))
+
+(pushy/start! history)
+
+(rum/defc Router < rum/reactive [route]
+  (let [[handler] (rum/react route)]
+    [:div
+     (case handler
+       :sign-in (sign-in/sign-in)
+       :profile (profile/profile)
+       :rooms (rooms/rooms [["#general" "#general"]
+                         ["#random" "#random"]
+                         ["#dev-js" "#dev-js"]])
+       nil)]))
+
+(rum/mount (Router route)
            (. js/document (getElementById "app")))
